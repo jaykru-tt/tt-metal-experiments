@@ -1,5 +1,6 @@
 module.exports = async ({ github, context }) => {
-  const targetWorkflow = 'All post-commit tests';
+  const targetWorkflow = 'Dummy Test Workflow'; // Name of the workflow to check
+  const targetWorkflowFile = 'dummy-test.yml'; // File name of the workflow to check
   const overrideCmd    = '/override';
   const runWorkflowCmd = '/run-it';
 
@@ -117,7 +118,7 @@ module.exports = async ({ github, context }) => {
         const workflowInfo = await github.rest.actions.getWorkflow({
           owner: context.repo.owner,
           repo: context.repo.repo,
-          workflow_id: 'dummy-workflow.yml'
+          workflow_id: targetWorkflowFile
         });
         const workflowId = workflowInfo.data.id;
         console.log(`📋 Workflow ID: ${workflowId}`);
@@ -126,7 +127,7 @@ module.exports = async ({ github, context }) => {
         await github.rest.actions.createWorkflowDispatch({
           owner: context.repo.owner,
           repo: context.repo.repo,
-          workflow_id: 'dummy-test.yml',
+          workflow_id: workflowId,
           ref: pr.head.ref
         });
 
@@ -177,7 +178,7 @@ module.exports = async ({ github, context }) => {
           });
         } else {
           // Fallback to filtered page if we couldn't find the run
-          const workflowRunLink = `https://github.com/${context.repo.owner}/${context.repo.repo}/actions/workflows/all-post-commit-workflows.yaml?query=branch%3A${encodeURIComponent(pr.head.ref)}`;
+          const workflowRunLink = `https://github.com/${context.repo.owner}/${context.repo.repo}/actions/workflows/${targetWorkflowFile}?query=branch%3A${encodeURIComponent(pr.head.ref)}`;
           await github.rest.issues.createComment({
             owner: context.repo.owner,
             repo: context.repo.repo,
