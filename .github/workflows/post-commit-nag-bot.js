@@ -1,6 +1,6 @@
 module.exports = async ({ github, context }) => {
-  const defaultWorkflow = 'Dummy Test Workflow'; // Default workflow name
-  const defaultWorkflowFile = 'dummy-test.yml'; // Default workflow file
+  const defaultWorkflow = 'All post-commit tests'; // Default workflow name
+  const defaultWorkflowFile = 'all-post-commit-workflows.yaml'; // Default workflow file
   const overrideCmd    = '/override';
   const runWorkflowCmd = '/run';
 
@@ -166,14 +166,11 @@ module.exports = async ({ github, context }) => {
       const workflowName = workflowInfo.data.name;
       console.log(`📋 Workflow ID: ${workflowId}, Name: ${workflowName}`);
 
-      // Skip workflow_dispatch check - we'll let the API call fail if not supported
-      // The GitHub API doesn't provide trigger information in the workflow metadata
-
-      // Dispatch the workflow
+      // Dispatch the workflow using the workflow file name (not ID)
       await github.rest.actions.createWorkflowDispatch({
         owner: context.repo.owner,
         repo: context.repo.repo,
-        workflow_id: workflowId,
+        workflow_id: workflowFile, // must be the file name, not the numeric ID
         ref: pr.head.ref
       });
 
