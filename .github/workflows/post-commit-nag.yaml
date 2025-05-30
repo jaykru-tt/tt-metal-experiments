@@ -3,7 +3,7 @@ on:
   pull_request:
     types: [opened, synchronize, reopened, ready_for_review]
   workflow_run:
-    workflows: ["All post-commit tests"]
+    workflows: ["Dummy Test Workflow"]
     types:
       - completed
   issue_comment:

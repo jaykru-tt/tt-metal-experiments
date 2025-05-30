@@ -1,0 +1,34 @@
+name: Dummy Test Workflow
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - pc-nag-tests
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  dummy-test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Run dummy test
+        run: |
+          echo "Running dummy test..."
+          echo "Test status: PASS"
+          exit 0
+
+      - name: Random failure simulation
+        run: |
+          # Randomly fail 50% of the time
+          if [ $((RANDOM % 2)) -eq 0 ]; then
+            echo "Test failed randomly!"
+            exit 1
+          else
+            echo "Test passed!"
+            exit 0
+          fi
