@@ -117,7 +117,7 @@ module.exports = async ({ github, context }) => {
         const workflowInfo = await github.rest.actions.getWorkflow({
           owner: context.repo.owner,
           repo: context.repo.repo,
-          workflow_id: 'all-post-commit-workflows.yaml'
+          workflow_id: 'dummy-workflow.yml'
         });
         const workflowId = workflowInfo.data.id;
         console.log(`📋 Workflow ID: ${workflowId}`);
@@ -126,7 +126,7 @@ module.exports = async ({ github, context }) => {
         await github.rest.actions.createWorkflowDispatch({
           owner: context.repo.owner,
           repo: context.repo.repo,
-          workflow_id: 'all-post-commit-workflows.yaml',
+          workflow_id: 'dummy-test.yml',
           ref: pr.head.ref
         });
 
