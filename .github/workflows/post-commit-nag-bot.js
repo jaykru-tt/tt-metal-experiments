@@ -166,10 +166,8 @@ module.exports = async ({ github, context }) => {
       const workflowName = workflowInfo.data.name;
       console.log(`📋 Workflow ID: ${workflowId}, Name: ${workflowName}`);
 
-      // Check if workflow has workflow_dispatch trigger
-      if (!workflowInfo.data.path.includes('workflow_dispatch')) {
-        throw new Error(`Workflow ${workflowFile} does not have workflow_dispatch trigger`);
-      }
+      // Skip workflow_dispatch check - we'll let the API call fail if not supported
+      // The GitHub API doesn't provide trigger information in the workflow metadata
 
       // Dispatch the workflow
       await github.rest.actions.createWorkflowDispatch({
